@@ -150,6 +150,23 @@ public class TheoryMain {
 
     }
 
+    public static void deleteEmployee(int empId) {
+        try (Connection con = DriverManager.getConnection(urlDB, userNameDB, userPasswordDB)) {
+            String sql = "DELETE from employees WHERE emp_id = ?";
+            try (PreparedStatement ps = con.prepareStatement(sql)) {
+                ps.setInt(1, empId);
+
+                System.out.println("Execute delete: " + sql);
+                int affectedRows = ps.executeUpdate();
+
+                System.out.println("Delete successfully executed. Affected rows: " + affectedRows);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public static void main(String[] args) {
 //        connectToDB();
@@ -157,10 +174,12 @@ public class TheoryMain {
 //        insertEmployee();
 //        insertEmpWithParam("Dany", "trainer", 1000);
 //        insertEmpWithParam("Marius", "army boy", 300);
+//        updateSalaryForEmp(1, 8000);
         System.out.println("Before");
         selectAllFromTable();
-        updateSalaryForEmp(1, 8000);
+        deleteEmployee(6);
         System.out.println("After");
         selectAllFromTable();
+
     }
 }
