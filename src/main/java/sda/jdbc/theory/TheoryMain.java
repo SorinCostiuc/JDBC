@@ -172,7 +172,7 @@ public class TheoryMain {
 
             String firstUpdate = "UPDATE employees SET salary = 20000 WHERE emp_id = 1";
             String secondUpdate = "UPDATE employees SET salary = 10000 WHERE emp_id = 2";
-            try (Statement statement = con.createStatement()){
+            try (Statement statement = con.createStatement()) {
                 System.out.println("Execute first update: " + firstUpdate);
                 statement.executeUpdate(firstUpdate);
 
@@ -180,6 +180,28 @@ public class TheoryMain {
                 statement.executeUpdate(secondUpdate);
             }
             con.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void executeTxRollback() {
+        try (Connection con = DriverManager.getConnection(urlDB, userNameDB, userPasswordDB)) {
+            con.setAutoCommit(false);
+            String firstUpdate = "UPDATE employees SET salary = 6000 WHERE emp_id = 1";
+            String secondUpdate = "UPDATE employees SET salary = 4000 WHERE emp_id = 2";
+
+            try (Statement statement = con.createStatement()) {
+                System.out.println("Execute first update: " + firstUpdate);
+                int firstUpdateAffectedRows = statement.executeUpdate(firstUpdate);
+                System.out.println("First update executed: " + firstUpdateAffectedRows);
+
+                System.out.println("Execute second update: " + secondUpdate);
+                int secondUpdateAffectedRows = statement.executeUpdate(firstUpdate);
+                System.out.println("First update executed: " + secondUpdateAffectedRows);
+            }
+
+            con.rollback();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -194,9 +216,10 @@ public class TheoryMain {
 //        insertEmpWithParam("Marius", "army boy", 300);
 //        updateSalaryForEmp(1, 8000);
 //        deleteEmployee(7);
+//        executeTransactionsCommit();
         System.out.println("Before");
         selectAllFromTable();
-        executeTransactionsCommit();
+        executeTxRollback();
         System.out.println("After");
         selectAllFromTable();
 
