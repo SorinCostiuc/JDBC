@@ -152,19 +152,37 @@ public class TheoryMain {
 
     public static void deleteEmployee(int empId) {
         try (Connection con = DriverManager.getConnection(urlDB, userNameDB, userPasswordDB)) {
-            String sql = "DELETE from employees WHERE emp_id = ?";
+            String sql = "DELETE FROM employees WHERE emp_id = ?";
             try (PreparedStatement ps = con.prepareStatement(sql)) {
                 ps.setInt(1, empId);
 
                 System.out.println("Execute delete: " + sql);
                 int affectedRows = ps.executeUpdate();
 
-                System.out.println("Delete successfully executed. Affected rows: " + affectedRows);
+                System.out.println("Employee with emIpd = " + empId + " was deleted. Affected rows: " + affectedRows);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
 
+    public static void executeTransactionsCommit() {
+        try (Connection con = DriverManager.getConnection(urlDB, userNameDB, userPasswordDB)) {
+            con.setAutoCommit(false);
+
+            String firstUpdate = "UPDATE employees SET salary = 20000 WHERE emp_id = 1";
+            String secondUpdate = "UPDATE employees SET salary = 10000 WHERE emp_id = 2";
+            try (Statement statement = con.createStatement()){
+                System.out.println("Execute first update: " + firstUpdate);
+                statement.executeUpdate(firstUpdate);
+
+                System.out.println("Execute second update: " + secondUpdate);
+                statement.executeUpdate(secondUpdate);
+            }
+            con.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -175,9 +193,10 @@ public class TheoryMain {
 //        insertEmpWithParam("Dany", "trainer", 1000);
 //        insertEmpWithParam("Marius", "army boy", 300);
 //        updateSalaryForEmp(1, 8000);
+//        deleteEmployee(7);
         System.out.println("Before");
         selectAllFromTable();
-        deleteEmployee(6);
+        executeTransactionsCommit();
         System.out.println("After");
         selectAllFromTable();
 
