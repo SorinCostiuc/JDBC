@@ -62,6 +62,23 @@ public class HibernateMain {
         }
     }
 
+    public static void deleteEmployeeById(int id) {
+        // Employee e = search employee with id 1
+        // delete e
+        // we could use the above method @getEmployeeById
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+            Employee e = getEmployeeById(id);
+            if (e == null) {
+                System.out.println("Employee with ID: " + id + " not found");
+            } else {
+                session.remove(e);
+                System.out.println("Employee with ID: " + id + " removed");
+            }
+            session.getTransaction().commit();
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Employee employee1 = new Employee();
@@ -75,7 +92,11 @@ public class HibernateMain {
 //        employee2.setSalary(3000);
 //
 //
-//        insertEmployee(employee1, employee2);
+//        Employee employee3 = new Employee();
+//        employee3.setName("Ana");
+//        employee3.setPosition("Python dev");
+//        employee3.setSalary(1000);
+//        insertEmployee(employee1, employee2, employee3);
 //        System.out.println("----------");
 //
 //        System.out.println(getEmployeeById(1));
@@ -89,13 +110,16 @@ public class HibernateMain {
 //        }
 //        System.out.println("----------");
 
-        Employee employee3 = new Employee();
-        employee3.setName("Alexandra");
-        employee3.setPosition("Java Dev");
-        employee3.setSalary(4200);
-        employee3.setId(6L);
-        updateEmployee(employee3);
-        System.out.println("----------");
+//        Employee employee3 = new Employee();
+//        employee3.setName("Alexandra");
+//        employee3.setPosition("Java Dev");
+//        employee3.setSalary(4200);
+//        employee3.setId(6L);
+//        updateEmployee(employee3);
+//        System.out.println("----------");
+
+        System.out.println(getEmployeeById(153));
+        deleteEmployeeById(253);
 
     }
 }
