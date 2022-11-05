@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
+import sda.hibernate.theory.embedded.Address;
+import sda.hibernate.theory.embedded.Person;
 import sda.hibernate.theory.entity.Employee;
 
 import java.util.Arrays;
@@ -79,6 +81,25 @@ public class HibernateMain {
         }
     }
 
+    public static void insertPerson() {
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+
+            Address address = new Address();
+            address.setCity("Iasi");
+            address.setNumber(1);
+            address.setCountry("Romanica");
+
+            Person p = new Person();
+            p.setName("Gigel");
+            p.setAddress(address);
+
+            session.persist(p);
+
+            session.getTransaction().commit();
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Employee employee1 = new Employee();
@@ -118,8 +139,11 @@ public class HibernateMain {
 //        updateEmployee(employee3);
 //        System.out.println("----------");
 
-        System.out.println(getEmployeeById(153));
-        deleteEmployeeById(253);
+//        System.out.println(getEmployeeById(153));
+//        deleteEmployeeById(253);
+//        System.out.println("----------");
+        insertPerson();
+
 
     }
 }

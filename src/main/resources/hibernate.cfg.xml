@@ -18,5 +18,8 @@
 
 
         <mapping class="sda.hibernate.theory.entity.Employee"/>
+
+        <mapping class="sda.hibernate.theory.embedded.Address"/>
+        <mapping class="sda.hibernate.theory.embedded.Person"/>
     </session-factory>
 </hibernate-configuration>
