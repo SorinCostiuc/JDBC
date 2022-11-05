@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
 import sda.hibernate.theory.entity.Employee;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -20,9 +21,9 @@ public class HibernateMain {
         System.out.println("Persist employee ...");
         try (Session session = sf.openSession()) {
             Transaction transaction = session.beginTransaction();
-            for (Employee employee : employees) {
-                session.persist(employee);
-            }
+
+            Arrays.stream(employees).forEach((session::persist));
+
             transaction.commit();
 
         }
@@ -37,15 +38,15 @@ public class HibernateMain {
     public static List<Employee> getEmployees() {
         try (Session session = sf.openSession()) {
 //             SELECT * FROM EMPLOYEE ---->QUERY creation for the object
-            // Assemble query
+            // Assemble query & Create java query
             JpaCriteriaQuery<Employee> jpaCriteriaQuery = session
                     .getCriteriaBuilder()
                     .createQuery(Employee.class); // resulted object will be of type Employee
             jpaCriteriaQuery.from(Employee.class); // FROM EMPLOYEE
 
-            //Create query
+            // Execute query
             TypedQuery<Employee> typedQuery = session.createQuery(jpaCriteriaQuery);
-            //Execute query -> get ResultSet(JDBC analogy) -> transform resultSet into List<Employee>
+            // get ResultSet(JDBC analogy) -> transform resultSet into List<Employee>
             return typedQuery.getResultList();
         }
     }
@@ -53,6 +54,8 @@ public class HibernateMain {
     public static void updateEmployee(Employee e) {
         try (Session session = sf.openSession()) {
             session.beginTransaction();
+
+            // update or insert
             session.merge(e);
 
             session.getTransaction().commit();
