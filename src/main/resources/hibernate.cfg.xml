@@ -21,5 +21,9 @@
 
         <mapping class="sda.hibernate.theory.embedded.Address"/>
         <mapping class="sda.hibernate.theory.embedded.Person"/>
+
+        <mapping class="sda.hibernate.theory.relationship.onetoone.Individual"/>
+        <mapping class="sda.hibernate.theory.relationship.onetoone.CNP"/>
+
     </session-factory>
 </hibernate-configuration>

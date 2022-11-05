@@ -9,6 +9,8 @@ import org.hibernate.query.criteria.JpaCriteriaQuery;
 import sda.hibernate.theory.embedded.Address;
 import sda.hibernate.theory.embedded.Person;
 import sda.hibernate.theory.entity.Employee;
+import sda.hibernate.theory.relationship.onetoone.CNP;
+import sda.hibernate.theory.relationship.onetoone.Individual;
 
 import java.util.Arrays;
 import java.util.List;
@@ -100,6 +102,24 @@ public class HibernateMain {
         }
     }
 
+    // 1:1 -> Person : CNP
+    public static void insertIndividualWithCNP() {
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+
+            CNP cnp = new CNP();
+            cnp.setValue("1111111111111");
+
+            Individual individual = new Individual();
+            individual.setName("Dorel");
+            individual.setCnp(cnp);
+
+            session.persist(individual);
+
+            session.getTransaction().commit();
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Employee employee1 = new Employee();
@@ -142,8 +162,8 @@ public class HibernateMain {
 //        System.out.println(getEmployeeById(153));
 //        deleteEmployeeById(253);
 //        System.out.println("----------");
-        insertPerson();
-
+//        insertPerson();
+        insertIndividualWithCNP();
 
     }
 }
