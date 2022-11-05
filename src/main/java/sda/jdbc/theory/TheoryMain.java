@@ -18,10 +18,11 @@ public class TheoryMain {
            DriverManager
            DataSource
       - Statement class is an interface that allows us to create requests/condition: "select serial from Netflix where name = X"
-      - Prepare Statements uses statement as "select serial from Netflix where name = ?" / setString (1, "x") - allows for dynamic values (reuse of a statement)
+      - Prepare Statements - uses statement as "select serial from Netflix where name = ?" / setString (1, "x") - allows for dynamic values (reuse of a statement)
+                           - does not allow to use SQL code as our value by concatenating a string
       - Callable Statement allows us to call a function or procedure from SQL query
       - methods:
-           execute -> execute SQL commands
+           execute -> execute SQL commands (returns true or false)
            executeUpdate -> execute SQL command and return nr. of lines affected
            executeQuery -> returns the result of a select = returns the table result and uses the "next()" method to see the result on each line; next() returns a boolean if next line exists
        */
