@@ -87,8 +87,10 @@ public class HibernateMain {
 //        System.out.println("----------");
 
         Employee employee3 = new Employee();
-        employee3.setName("Alexandru");
-        employee3.setId(302L);
+        employee3.setName("Alexandra");
+        employee3.setPosition("Java Dev");
+        employee3.setSalary(4200);
+        employee3.setId(6L);
         updateEmployee(employee3);
         System.out.println("----------");
 
