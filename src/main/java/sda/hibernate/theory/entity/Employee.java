@@ -1,6 +1,7 @@
 package sda.hibernate.theory.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
