@@ -9,6 +9,8 @@ import org.hibernate.query.criteria.JpaCriteriaQuery;
 import sda.hibernate.theory.embedded.Address;
 import sda.hibernate.theory.embedded.Person;
 import sda.hibernate.theory.entity.Employee;
+import sda.hibernate.theory.relationship.manytomany.Game;
+import sda.hibernate.theory.relationship.manytomany.Gamer;
 import sda.hibernate.theory.relationship.onetomany.Author;
 import sda.hibernate.theory.relationship.onetomany.Book;
 import sda.hibernate.theory.relationship.onetoone.CNP;
@@ -149,6 +151,36 @@ public class HibernateMain {
         }
     }
 
+    public static void insertGamersAndGames() {
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+
+            Gamer gamer1 = new Gamer();
+            gamer1.setName("Sorin");
+            Gamer gamer2 = new Gamer();
+            gamer2.setName("Bogdan");
+
+            List<Gamer> gamers = List.of(gamer1, gamer2);
+
+            Game game1 = new Game();
+            game1.setTitle("Assassin's Creed");
+            game1.setGamers(gamers);
+            Game game2 = new Game();
+            game2.setTitle("Red Dead Redemption 2");
+            game2.setGamers(gamers);
+
+            List<Game> games = List.of(game1, game2);
+
+            gamer1.setGames(games);
+            gamer2.setGames(games);
+
+            session.persist(gamer1);
+            session.persist(gamer2);
+
+            session.getTransaction().commit();
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Employee employee1 = new Employee();
@@ -196,7 +228,8 @@ public class HibernateMain {
 
 //        insertIndividualWithCNP();
 
-        insertAuthorWithBooks();
+//        insertAuthorWithBooks();
 
+        insertGamersAndGames();
     }
 }
