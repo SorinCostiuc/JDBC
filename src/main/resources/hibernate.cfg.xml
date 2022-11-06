@@ -16,14 +16,14 @@
 
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-
         <mapping class="sda.hibernate.theory.entity.Employee"/>
-
         <mapping class="sda.hibernate.theory.embedded.Address"/>
         <mapping class="sda.hibernate.theory.embedded.Person"/>
-
         <mapping class="sda.hibernate.theory.relationship.onetoone.Individual"/>
         <mapping class="sda.hibernate.theory.relationship.onetoone.CNP"/>
-
+        <mapping class="sda.hibernate.theory.relationship.onetomany.Author"/>
+        <mapping class="sda.hibernate.theory.relationship.onetomany.Book"/>
+        <mapping class="sda.hibernate.theory.relationship.manytomany.Game"/>
+        <mapping class="sda.hibernate.theory.relationship.manytomany.Gamer"/>
     </session-factory>
 </hibernate-configuration>
