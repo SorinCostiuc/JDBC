@@ -9,6 +9,8 @@ import org.hibernate.query.criteria.JpaCriteriaQuery;
 import sda.hibernate.theory.embedded.Address;
 import sda.hibernate.theory.embedded.Person;
 import sda.hibernate.theory.entity.Employee;
+import sda.hibernate.theory.relationship.onetomany.Author;
+import sda.hibernate.theory.relationship.onetomany.Book;
 import sda.hibernate.theory.relationship.onetoone.CNP;
 import sda.hibernate.theory.relationship.onetoone.Individual;
 
@@ -120,6 +122,33 @@ public class HibernateMain {
         }
     }
 
+    //    1:N -> Author : List<BOOK>
+    public static void insertAuthorWithBooks() {
+        try (Session session = sf.openSession()) {
+            session.beginTransaction();
+
+            Author a1 = new Author();
+            a1.setName("Sorin");
+            Author a2 = new Author();
+            a2.setName("Luca");
+
+            Book b1 = new Book();
+            b1.setTitle("Adios dar ramai");
+            b1.setAuthor(a1);
+            Book b2 = new Book();
+            b2.setTitle("Ramai dar pleaca");
+            b2.setAuthor(a1);
+
+            List<Book> books = List.of(b1, b2);
+
+            a1.setBooks(books);
+
+            session.persist(a1);
+
+            session.getTransaction().commit();
+        }
+    }
+
 
     public static void main(String[] args) {
 //        Employee employee1 = new Employee();
@@ -162,8 +191,12 @@ public class HibernateMain {
 //        System.out.println(getEmployeeById(153));
 //        deleteEmployeeById(253);
 //        System.out.println("----------");
+
 //        insertPerson();
-        insertIndividualWithCNP();
+
+//        insertIndividualWithCNP();
+
+        insertAuthorWithBooks();
 
     }
 }
